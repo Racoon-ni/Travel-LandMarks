@@ -1,0 +1,1 @@
+export const MainAPI = "https://???.mockapi.io/???";
