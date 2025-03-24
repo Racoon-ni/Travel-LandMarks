@@ -25,12 +25,6 @@ export default function NavBar() {
           <Nav.Link href="/form " style={{ color: "#fff", fontWeight: "bold" }}>
             Form
           </Nav.Link>
-          <Nav.Link
-            href="/listevents "
-            style={{ color: "#fff", fontWeight: "bold" }}
-          >
-            List
-          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>

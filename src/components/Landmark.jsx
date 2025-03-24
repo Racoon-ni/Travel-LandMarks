@@ -1,21 +1,44 @@
-import React from "react";
-import { Container, Card, Row, Col } from "react-bootstrap";
-import landmarks from "../data/landmarks";
+import React, { useEffect, useState } from "react";
+import { Container, Card, Row, Col, Spinner } from "react-bootstrap";
+
 export default function Landmark() {
+  const [landmarks, setLandmarks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/data/landmarks.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setLandmarks(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching landmarks:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading)
+    return <Spinner animation="border" className="d-block mx-auto mt-5" />;
+
   return (
-    <Container style={{ padding: "50px 0" }}>
-      <h2 className="my-4" style={{ textAlign: "center" }}>
-        Famous Landmarks Around The World
-      </h2>
+    <Container className="my-5">
+      <h2 className="text-center mb-4">Famous Landmarks (Fetched)</h2>
       <Row className="g-4">
         {landmarks.map((event, index) => (
-          <Col md={4} key={index}>
-            <Card>
-              <Card.Img variant="top" src={event.image} alt={event.title} />
+          <Col md={6} key={index}>
+            <Card className="d-flex flex-row align-items-center">
+              <Card.Img
+                src={event.image}
+                style={{ width: "40%", height: "200px", objectFit: "cover" }}
+                alt={event.title}
+              />
               <Card.Body>
                 <Card.Title>{event.title}</Card.Title>
                 <Card.Text>{event.description}</Card.Text>
-                <Card.Text>{event.country}</Card.Text>
+                <Card.Text>
+                  <strong>{event.country}</strong>
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>
